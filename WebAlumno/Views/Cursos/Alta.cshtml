@@ -1,0 +1,29 @@
+﻿@model WebAlumno.Models.Curso
+
+@{
+    ViewBag.Title = "Alta";
+}
+
+<h2>Nuevo Curso</h2>
+
+@Html.ValidationSummary(false)  
+
+@using (Html.BeginForm()) // aqui estamos poniendo la etiqueta de formulario, lo poe en un using porque quiero que al acabar me ponga un barraform
+{
+    @Html.AntiForgeryToken() // directiva de seguridad que perimite que no se falseen datos
+    
+    @Html.LabelFor(o=>o.Nombre) // expresion lambda
+    @Html.EditorFor(o=>o.Nombre) // editor predeterminado
+    <br/>
+    
+    @Html.LabelFor(o=>o.inicio)
+    @Html.EditorFor(o=>o.inicio)
+    <br/>
+    
+    @Html.LabelFor(o => o.fin)
+    @Html.EditorFor(o => o.fin)
+    <br/>
+    
+    <input type="submit" value="Enviar Datos"/>
+}
+

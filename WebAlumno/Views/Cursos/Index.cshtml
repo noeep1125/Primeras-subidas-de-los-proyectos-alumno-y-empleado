@@ -1,0 +1,74 @@
+﻿@using WebAlumno.Models
+
+@model IEnumerable<WebAlumno.Models.Curso>
+
+@*comentario aqui fuera*@
+
+@{
+    // comentario aqui dentro, si el comentario lo pones entre los corchetes del HTML se vería en pantalla...
+    
+    ViewBag.Title = "Index";
+    bool par = false;
+}
+
+<h2>Listado de Cursos</h2>
+
+@Html.ActionLink("Nuevo Curso","Alta")
+
+    @foreach (var item in Model)
+    {
+
+        <div style="@(par ? "background:silver;" : "background:grey;"); float: left; width: 100%;"  >
+
+            <h3>@item.Nombre</h3><br/>
+
+            <h4>@item.inicio.ToShortDateString() a @item.fin.ToShortDateString()</h4>
+
+            <div style="float: left">
+                @Html.ActionLink("borrar curso", "borrar", new {id = item.id})
+
+                @Html.ActionLink("Modificar Curso", "Modificar", new{item.id})
+            </div>
+
+            <div style="float: left">
+                <h3>Profesores</h3>
+                <ul>
+                    @foreach(var profe in item.Profesores_Curso)
+                    {
+                        <li>@profe.Profesores.Nombre @profe.Profesores.Apellidos</li>     
+                    }
+
+                </ul>
+
+
+            </div>
+
+            <div style="float: left">
+                
+                <h3>Alumnos</h3>
+                <ul>
+                    @foreach (var alumno in item.Alumnos)
+                    {
+                        <li>@alumno.nombre @alumno.apellidos</li>
+                    }
+
+                </ul>
+
+
+            </div>
+
+            <div style="float: left">
+
+
+
+            </div>
+
+        </div>
+        
+        par = !par;
+
+    }
+
+
+
+

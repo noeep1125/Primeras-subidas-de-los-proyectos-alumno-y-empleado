@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CursosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumnos">
+          <Key>
+            <PropertyRef Name="dni" />
+          </Key>
+          <Property Name="dni" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="apellidos" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="fechaNacimiento" Type="date" />
+          <Property Name="idNacionalidad" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Alumnos_Curso">
+          <Key>
+            <PropertyRef Name="idAlumno" />
+            <PropertyRef Name="idCurso" />
+          </Key>
+          <Property Name="idAlumno" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="idCurso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nchar" MaxLength="150" Nullable="false" />
+          <Property Name="inicio" Type="date" Nullable="false" />
+          <Property Name="fin" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Nacionalidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Profesores">
+          <Key>
+            <PropertyRef Name="dni" />
+          </Key>
+          <Property Name="dni" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Nombre" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellidos" Type="nchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profesores_Curso">
+          <Key>
+            <PropertyRef Name="idCurso" />
+            <PropertyRef Name="idProfesor" />
+          </Key>
+          <Property Name="idCurso" Type="int" Nullable="false" />
+          <Property Name="idProfesor" Type="nvarchar" MaxLength="9" Nullable="false" />
+          <Property Name="Horas" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Alumnos_Curso_Alumnos">
+          <End Role="Alumnos" Type="Self.Alumnos" Multiplicity="1" />
+          <End Role="Alumnos_Curso" Type="Self.Alumnos_Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumnos">
+              <PropertyRef Name="dni" />
+            </Principal>
+            <Dependent Role="Alumnos_Curso">
+              <PropertyRef Name="idAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumnos_Curso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Alumnos_Curso" Type="Self.Alumnos_Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Alumnos_Curso">
+              <PropertyRef Name="idCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumnos_Nacionalidades">
+          <End Role="Nacionalidades" Type="Self.Nacionalidades" Multiplicity="1" />
+          <End Role="Alumnos" Type="Self.Alumnos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nacionalidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Alumnos">
+              <PropertyRef Name="idNacionalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesores_Curso_Curso">
+          <End Role="Curso" Type="Self.Curso" Multiplicity="1" />
+          <End Role="Profesores_Curso" Type="Self.Profesores_Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Profesores_Curso">
+              <PropertyRef Name="idCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesores_Curso_Profesores">
+          <End Role="Profesores" Type="Self.Profesores" Multiplicity="1" />
+          <End Role="Profesores_Curso" Type="Self.Profesores_Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesores">
+              <PropertyRef Name="dni" />
+            </Principal>
+            <Dependent Role="Profesores_Curso">
+              <PropertyRef Name="idProfesor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CursosModelStoreContainer">
+          <EntitySet Name="Alumnos" EntityType="Self.Alumnos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alumnos_Curso" EntityType="Self.Alumnos_Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Curso" EntityType="Self.Curso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nacionalidades" EntityType="Self.Nacionalidades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profesores" EntityType="Self.Profesores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profesores_Curso" EntityType="Self.Profesores_Curso" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alumnos_Curso_Alumnos" Association="Self.FK_Alumnos_Curso_Alumnos">
+            <End Role="Alumnos" EntitySet="Alumnos" />
+            <End Role="Alumnos_Curso" EntitySet="Alumnos_Curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumnos_Curso_Curso" Association="Self.FK_Alumnos_Curso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Alumnos_Curso" EntitySet="Alumnos_Curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumnos_Nacionalidades" Association="Self.FK_Alumnos_Nacionalidades">
+            <End Role="Nacionalidades" EntitySet="Nacionalidades" />
+            <End Role="Alumnos" EntitySet="Alumnos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesores_Curso_Curso" Association="Self.FK_Profesores_Curso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Profesores_Curso" EntitySet="Profesores_Curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesores_Curso_Profesores" Association="Self.FK_Profesores_Curso_Profesores">
+            <End Role="Profesores" EntitySet="Profesores" />
+            <End Role="Profesores_Curso" EntitySet="Profesores_Curso" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CursosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumnos">
+          <Key>
+            <PropertyRef Name="dni" />
+          </Key>
+          <Property Name="dni" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="apellidos" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fechaNacimiento" Type="DateTime" Precision="0" />
+          <Property Name="idNacionalidad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Nacionalidades" Relationship="CursosModel.FK_Alumnos_Nacionalidades" FromRole="Alumnos" ToRole="Nacionalidades" />
+          <NavigationProperty Name="Curso" Relationship="CursosModel.Alumnos_Curso" FromRole="Alumnos" ToRole="Curso" />
+        </EntityType>
+        <EntityContainer Name="CursosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alumnos" EntityType="Self.Alumnos" />
+          <EntitySet Name="Nacionalidades" EntityType="CursosModel.Nacionalidades" />
+          <AssociationSet Name="FK_Alumnos_Nacionalidades" Association="CursosModel.FK_Alumnos_Nacionalidades">
+            <End Role="Nacionalidades" EntitySet="Nacionalidades" />
+            <End Role="Alumnos" EntitySet="Alumnos" />
+          </AssociationSet>
+          <EntitySet Name="Curso" EntityType="CursosModel.Curso" />
+          <EntitySet Name="Profesores" EntityType="CursosModel.Profesores" />
+          <EntitySet Name="Profesores_Curso" EntityType="CursosModel.Profesores_Curso" />
+          <AssociationSet Name="FK_Profesores_Curso_Curso" Association="CursosModel.FK_Profesores_Curso_Curso">
+            <End Role="Curso" EntitySet="Curso" />
+            <End Role="Profesores_Curso" EntitySet="Profesores_Curso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Profesores_Curso_Profesores" Association="CursosModel.FK_Profesores_Curso_Profesores">
+            <End Role="Profesores" EntitySet="Profesores" />
+            <End Role="Profesores_Curso" EntitySet="Profesores_Curso" />
+          </AssociationSet>
+          <AssociationSet Name="Alumnos_Curso" Association="CursosModel.Alumnos_Curso">
+            <End Role="Alumnos" EntitySet="Alumnos" />
+            <End Role="Curso" EntitySet="Curso" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Nacionalidades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alumnos" Relationship="CursosModel.FK_Alumnos_Nacionalidades" FromRole="Nacionalidades" ToRole="Alumnos" />
+        </EntityType>
+        <Association Name="FK_Alumnos_Nacionalidades">
+          <End Type="CursosModel.Nacionalidades" Role="Nacionalidades" Multiplicity="1" />
+          <End Type="CursosModel.Alumnos" Role="Alumnos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nacionalidades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Alumnos">
+              <PropertyRef Name="idNacionalidad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Curso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="inicio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="fin" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Profesores_Curso" Relationship="CursosModel.FK_Profesores_Curso_Curso" FromRole="Curso" ToRole="Profesores_Curso" />
+          <NavigationProperty Name="Alumnos" Relationship="CursosModel.Alumnos_Curso" FromRole="Curso" ToRole="Alumnos" />
+        </EntityType>
+        <EntityType Name="Profesores">
+          <Key>
+            <PropertyRef Name="dni" />
+          </Key>
+          <Property Name="dni" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Apellidos" Type="String" Nullable="false" MaxLength="150" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Profesores_Curso" Relationship="CursosModel.FK_Profesores_Curso_Profesores" FromRole="Profesores" ToRole="Profesores_Curso" />
+        </EntityType>
+        <EntityType Name="Profesores_Curso">
+          <Key>
+            <PropertyRef Name="idCurso" />
+            <PropertyRef Name="idProfesor" />
+          </Key>
+          <Property Name="idCurso" Type="Int32" Nullable="false" />
+          <Property Name="idProfesor" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="true" />
+          <Property Name="Horas" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Curso" Relationship="CursosModel.FK_Profesores_Curso_Curso" FromRole="Profesores_Curso" ToRole="Curso" />
+          <NavigationProperty Name="Profesores" Relationship="CursosModel.FK_Profesores_Curso_Profesores" FromRole="Profesores_Curso" ToRole="Profesores" />
+        </EntityType>
+        <Association Name="FK_Profesores_Curso_Curso">
+          <End Type="CursosModel.Curso" Role="Curso" Multiplicity="1" />
+          <End Type="CursosModel.Profesores_Curso" Role="Profesores_Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Curso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Profesores_Curso">
+              <PropertyRef Name="idCurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Profesores_Curso_Profesores">
+          <End Type="CursosModel.Profesores" Role="Profesores" Multiplicity="1" />
+          <End Type="CursosModel.Profesores_Curso" Role="Profesores_Curso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profesores">
+              <PropertyRef Name="dni" />
+            </Principal>
+            <Dependent Role="Profesores_Curso">
+              <PropertyRef Name="idProfesor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Alumnos_Curso">
+          <End Type="CursosModel.Alumnos" Role="Alumnos" Multiplicity="*" />
+          <End Type="CursosModel.Curso" Role="Curso" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CursosModelStoreContainer" CdmEntityContainer="CursosEntities">
+          <EntitySetMapping Name="Alumnos">
+            <EntityTypeMapping TypeName="CursosModel.Alumnos">
+              <MappingFragment StoreEntitySet="Alumnos">
+                <ScalarProperty Name="idNacionalidad" ColumnName="idNacionalidad" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellidos" ColumnName="apellidos" />
+                <ScalarProperty Name="fechaNacimiento" ColumnName="fechaNacimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nacionalidades">
+            <EntityTypeMapping TypeName="CursosModel.Nacionalidades">
+              <MappingFragment StoreEntitySet="Nacionalidades">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Curso">
+            <EntityTypeMapping TypeName="CursosModel.Curso">
+              <MappingFragment StoreEntitySet="Curso">
+                <ScalarProperty Name="fin" ColumnName="fin" />
+                <ScalarProperty Name="inicio" ColumnName="inicio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profesores">
+            <EntityTypeMapping TypeName="CursosModel.Profesores">
+              <MappingFragment StoreEntitySet="Profesores">
+                <ScalarProperty Name="Apellidos" ColumnName="Apellidos" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="dni" ColumnName="dni" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profesores_Curso">
+            <EntityTypeMapping TypeName="CursosModel.Profesores_Curso">
+              <MappingFragment StoreEntitySet="Profesores_Curso">
+                <ScalarProperty Name="Horas" ColumnName="Horas" />
+                <ScalarProperty Name="idProfesor" ColumnName="idProfesor" />
+                <ScalarProperty Name="idCurso" ColumnName="idCurso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Alumnos_Curso" TypeName="CursosModel.Alumnos_Curso" StoreEntitySet="Alumnos_Curso">
+            <EndProperty Name="Curso">
+              <ScalarProperty Name="id" ColumnName="idCurso" />
+            </EndProperty>
+            <EndProperty Name="Alumnos">
+              <ScalarProperty Name="dni" ColumnName="idAlumno" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
