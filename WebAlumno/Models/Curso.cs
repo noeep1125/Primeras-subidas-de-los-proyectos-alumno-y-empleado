@@ -7,6 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace WebAlumno.Models
 {
     using System;
@@ -21,8 +24,15 @@ namespace WebAlumno.Models
         }
     
         public int id { get; set; }
+        [DisplayName("Nombre del curso: ")]
+        [Required]
+        [MinLength(3)]
+
         public string Nombre { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("Fecha de inicio del curso: ")]
         public System.DateTime inicio { get; set; }
+        [DisplayName("Fecha de fin del curso: ")]
         public System.DateTime fin { get; set; }
     
         public virtual ICollection<Profesores_Curso> Profesores_Curso { get; set; }

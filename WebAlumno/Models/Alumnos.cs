@@ -7,10 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+
 namespace WebAlumno.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Alumnos
     {
@@ -18,13 +21,7 @@ namespace WebAlumno.Models
         {
             this.Curso = new HashSet<Curso>();
         }
-    
-        public string dni { get; set; }
-        public string nombre { get; set; }
-        public string apellidos { get; set; }
-        public Nullable<System.DateTime> fechaNacimiento { get; set; }
-        public int idNacionalidad { get; set; }
-    
+       
         public virtual Nacionalidades Nacionalidades { get; set; }
         public virtual ICollection<Curso> Curso { get; set; }
     }
